@@ -65,10 +65,10 @@ def idna2008(s):
                     else:
                         cf = ct = int(cd, 16)
                     if cp < cf:
-                        print "%s: NG" % c
+                        print "%s: definition was not found" % c
                         break
                     elif cf <= cp and cp <= ct:
-                        print "%s: OK %s #%s" % (c, df, comment)
+                        print "%s: %s #%s" % (c, df, comment)
                         break
 
 # main function

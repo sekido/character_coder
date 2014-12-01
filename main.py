@@ -46,18 +46,46 @@ def kuten(c):
             # ascii
             print ".",
         i = i + 1
+    print ""
+
+def idna2008(s):
+    print "idna2008"
+    for c in s:
+        cp = ord(c)
+        print "   ",
+        with open('rfc5892.txt') as fp:
+            for line in fp:
+                if ';' in line:
+                    define, comment = line.strip().split('#', 2)
+                    cd, df = define.replace(' ', '').split(';', 2)
+                    if '..' in cd:
+                        cf, ct = cd.split('..', 2)
+                        cf = int(cf, 16)
+                        ct = int(ct, 16)
+                    else:
+                        cf = ct = int(cd, 16)
+                    if cp < cf:
+                        print "%s: NG" % c
+                        break
+                    elif cf <= cp and cp <= ct:
+                        print "%s: OK %s #%s" % (c, df, comment)
+                        break
 
 # main function
 def main():
     c = raw_input(PROMPT).decode(INPUT_ENCODING)
-    pb(c)
-    pe(c, 'iso-2022-jp')
-    pe(c, 'shift_jis')
-    pe(c, 'cp932')
-    pe(c, 'euc-jp')
-    pe(c, 'utf-8')
-    pe(c, 'utf-16')
-    kuten(c)
+    if len(c) < 1:
+        print "input some chars"
+    else:
+        pb(c)
+        pe(c, 'iso-2022-jp')
+        pe(c, 'shift_jis')
+        pe(c, 'cp932')
+        pe(c, 'euc-jp')
+        pe(c, 'utf-8')
+        pe(c, 'utf-16')
+        kuten(c)
+        idna2008(c)
 
 # bootstrap
 if __name__ == '__main__':
